@@ -66,3 +66,28 @@ struct display_info_t const displays[] = {{
 } } };
 ```
 
+找到实际使用的液晶屏的参数对应填入即可。
+结构体 **fb_videomode** 里面的成员变量为 LCD 的参数，这些成员变量函数如下：
+**name** ：LCD 名字，要和环境变量中的 panel 相等。
+**xres 、yres** ：LCD X 轴和 Y 轴像素数量。
+**pixclock**：像素时钟，每个像素时钟周期的长度，单位为皮秒。
+**left_margin** ：HBP，水平同步后肩。
+**right_margin** ：HFP，水平同步前肩。
+**upper_margin**：VBP，垂直同步后肩。
+**lower_margin**：VFP，垂直同步前肩。
+**hsync_len** ：HSPW，行同步脉宽。
+**vsync_len**：VSPW，垂直同步脉宽。
+vmode ：大多数使用 FB_VMODE_NONINTERLACED，也就是不使用隔行扫描。四、修改 mx6ull_ex_emmc.h中的panel值。
+
+打开 mx6ull_ex_emmc.h，把其中的"panel=TFT43AB"替换为"panel=TFT50AB",与结构体displays中的.name成员变量的值一致。
+
+五、修改uboot的环境变量中的panel值
+完成以上步骤，重新烧写uboot，发现LCD还是无法正常显示，是因为uboot的环境变量中的panel值还没有修改，它存在于emmc中，uboot优先从emmc中读取环境变量。如果emmc保存的panel不等于.name的值，也无法显示。在uboot的命令模式下输入如下命令：
+
+```bash
+setenv panel TFT50AB
+saveenv
+```
+
+
+
