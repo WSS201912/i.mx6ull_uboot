@@ -1,25 +1,4 @@
-# uboot移植-环境变量
-
-启动uboot，打印环境变量，如图：
-![Snipaste_2020-02-27_17-04-12](K:\Linux\从零开发i.mx6ull\uboot的移植\i.mx6ull_uboot\uboot移植-环境变量\Snipaste_2020-02-27_17-04-12.jpg)
-
-##一、env数据结构
-
-在include/environment.h中定义了env_t，如下：
-
-```c
-typedef struct environment_s {
-	uint32_t	crc;		/* CRC32 over data bytes	*/
-
-	unsigned char	data[ENV_SIZE]; /* Environment data		*/
-} env_t
-  
-#define ENV_SIZE (CONFIG_ENV_SIZE - ENV_HEADER_SIZE)
-#define CONFIG_ENV_SIZE			SZ_8K//在include/configs/mx6ull_ex_emmc.h中
-# define ENV_HEADER_SIZE	(sizeof(uint32_t))
-```
-
-
+# uboot移植-默认环境变量
 
 如下为mx6ull_ex_emmc.h的关于环境变量的代码：
 
